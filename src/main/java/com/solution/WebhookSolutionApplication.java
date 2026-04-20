@@ -51,15 +51,19 @@ public class WebhookSolutionApplication {
 
             // Step 2: Submit SQL solution
             // regNo = REG12347 → last two digits = 47 → ODD → Question 1
-            // Question 1: Find the 2nd highest salary without using LIMIT/TOP
+            // Question 1: Highest salary NOT credited on the 1st day of any month,
+            // with employee name (FIRST_NAME + LAST_NAME), age, and department name
             String finalQuery =
-                "SELECT DISTINCT p.AMOUNT AS SALARY, e.FIRST_NAME, e.LAST_NAME, d.DEPARTMENT_NAME " +
+                "SELECT p.AMOUNT AS SALARY, " +
+                "CONCAT(e.FIRST_NAME, ' ', e.LAST_NAME) AS NAME, " +
+                "TIMESTAMPDIFF(YEAR, e.DOB, CURDATE()) AS AGE, " +
+                "d.DEPARTMENT_NAME " +
                 "FROM PAYMENTS p " +
                 "JOIN EMPLOYEE e ON e.EMP_ID = p.EMP_ID " +
-                "JOIN DEPARTMENT d ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
-                "WHERE p.AMOUNT = (" +
-                    "SELECT MAX(AMOUNT) FROM PAYMENTS " +
-                    "WHERE AMOUNT < (SELECT MAX(AMOUNT) FROM PAYMENTS)" +
+                "JOIN DEPARTMENT d ON d.DEPARTMENT_ID = e.DEPARTMENT " +
+                "WHERE DAY(p.PAYMENT_TIME) != 1 " +
+                "AND p.AMOUNT = (" +
+                    "SELECT MAX(AMOUNT) FROM PAYMENTS WHERE DAY(PAYMENT_TIME) != 1" +
                 ")";
 
             HttpHeaders submitHeaders = new HttpHeaders();
