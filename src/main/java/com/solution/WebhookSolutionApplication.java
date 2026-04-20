@@ -28,9 +28,9 @@ public class WebhookSolutionApplication {
             String generateUrl = "https://bfhldevapigw.healthrx.co.in/hiring/generateWebhook/JAVA";
 
             Map<String, String> requestBody = Map.of(
-                "name", "John Doe",
-                "regNo", "REG12347",
-                "email", "john@example.com"
+                "name", "Kunal",
+                "regNo", "ADT23SOCB0553",
+                "email", "kunalpawase@gmail.com"
             );
 
             HttpHeaders headers = new HttpHeaders();
@@ -60,7 +60,7 @@ public class WebhookSolutionApplication {
                 "d.DEPARTMENT_NAME " +
                 "FROM PAYMENTS p " +
                 "JOIN EMPLOYEE e ON e.EMP_ID = p.EMP_ID " +
-                "JOIN DEPARTMENT d ON d.DEPARTMENT_ID = e.DEPARTMENT " +
+                "JOIN DEPARTMENT d ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
                 "WHERE DAY(p.PAYMENT_TIME) != 1 " +
                 "AND p.AMOUNT = (" +
                     "SELECT MAX(AMOUNT) FROM PAYMENTS WHERE DAY(PAYMENT_TIME) != 1" +
